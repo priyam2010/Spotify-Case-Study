@@ -1,0 +1,44 @@
+USE DATABASE SPOTIFY_DB;
+USE SCHEMA PUBLIC;
+
+CREATE TABLE User (
+    UserID INT PRIMARY key,
+    Username STRING NOT NULL,
+    Email STRING NOT NULL,
+    Subscription_Type STRING
+);
+
+CREATE TABLE Playlist (
+    PlaylistID INT AUTOINCREMENT PRIMARY KEY,
+    UserID INT NOT NULL,
+    Playlist_Name VARCHAR(100),
+    Creation_Date DATE DEFAULT CURRENT_DATE,
+    FOREIGN KEY (UserID) REFERENCES User(UserID)
+);
+
+-- Track Table
+CREATE TABLE Track (
+    TrackID INT AUTOINCREMENT PRIMARY KEY,
+    Track_Name VARCHAR(150) NOT NULL,
+    Artist VARCHAR(100),
+    Album VARCHAR(100),
+    Genre VARCHAR(50)
+);
+
+-- PlaylistTrack Table
+CREATE TABLE PlaylistTrack (
+    PlaylistTrackID INT AUTOINCREMENT PRIMARY KEY,
+    PlaylistID INT NOT NULL,
+    TrackID INT NOT NULL,
+    FOREIGN KEY (PlaylistID) REFERENCES Playlist(PlaylistID),
+    FOREIGN KEY (TrackID) REFERENCES Track(TrackID)
+);
+
+-- Follower Table
+CREATE TABLE Follower (
+    FollowerID INT AUTOINCREMENT PRIMARY KEY,
+    UserID INT NOT NULL,
+    FollowerUserID INT NOT NULL,
+    FOREIGN KEY (UserID) REFERENCES User(UserID),
+    FOREIGN KEY (FollowerUserID) REFERENCES User(UserID)
+);
